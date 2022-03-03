@@ -1,0 +1,13 @@
+.list_button {
+	text-decoration: none;
+	color: grey;
+	transition: 0.1s all ease-in;
+}
+
+.list_button:hover {
+	color: #363636;
+}
+
+.list_button:active {
+	color: black;
+}
