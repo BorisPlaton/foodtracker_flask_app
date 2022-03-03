@@ -36,10 +36,10 @@
 <section>
 	<div class="container py-5 text-light">
 
-		<form action="{{ url_for('index')}}">
+		<form action="{{ url_for('index')}}" method="post">
 			<div class="input-group">
 
-					<input type="text" class="form-control" placeholder="New Day" aria-label="Recipient's username" aria-describedby="button-addon2" required>
+					<input type="text" class="form-control" placeholder="New Day" name="date" aria-label="Recipient's username" aria-describedby="button-addon2" required>
 					<button class="btn btn-warning" type="submit" id="button-addon2"><span class="fw-light">Add</span></button>
 
 			</div>
@@ -54,11 +54,12 @@
 	<div class="container">
 		<div class="card border-0">
 
+		{% for date in results %}
 		<!-- TITLE -->
 		  <div class="card-header bg-dark text-light lead">
-		    July 24, 2017
+			  {{ date.entry_date }}
 		  </div>
-
+		{% endfor %}
 
 		  <!-- MAIN -->
 		  <div class="card-body bg-warning fs-5 fw-light">
