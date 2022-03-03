@@ -7,16 +7,17 @@
 	  <div class="card border-0">
 
 		<!-- TITLE -->
+		  {% block form %}
 		  <div class="card-header bg-dark text-light lead">
 		    Foods
 		  </div>
 
 
+
 		  <!-- MAIN -->
 		  <div class="card-body bg-warning fs-5 fw-light">
 
-		  	<!-- USER FOOD INPUT -->
-		  {% block form %}
+			  <!-- USER FOOD INPUT -->
 		  	<form action="{{ url_for('add_food') }}" method="post">
 
 		  		<div class="row g-4">

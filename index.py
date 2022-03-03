@@ -92,7 +92,25 @@ def day(date):
 
     if request.method == "POST":
         pass
-    return render_template("day.html")
+
+    cur = db.execute("""
+        SELECT * FROM
+            log_date JOIN
+            food_date USING(log_id),
+            food USING(food_id)
+        WHERE log_date.entry_date = (?);
+    """, [date])
+    results = cur.fetchall()    # Таблица списка еды в выбранный день
+
+    cur = db.execute("""
+        SELECT * FROM food;
+    """)
+    food_list = cur.fetchall()  # Список всей доступной еды
+
+    _ = datetime.datetime.strptime(date, "%Y%m%d")
+    pretty_date = datetime.datetime.strftime(_, "%B %m, %Y")
+
+    return render_template("day.html", food_list=food_list, results=results, pretty_date=pretty_date)
 
 
 if __name__ == "__main__":
