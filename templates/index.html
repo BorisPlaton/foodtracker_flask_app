@@ -17,11 +17,11 @@
 
 		<div class="container">
 
-			<a href="#" class="navbar-brand text-warning lead">Food Tracker</a>
+			<a href="{{ url_for('index') }}" class="navbar-brand text-warning lead">Food Tracker</a>
 
 			<ul class="navbar-nav ms-auto" >
-				<li class="nav-item"><a href="#" class="nav-link fw-light">Home</a></li> 
-				<li class="nav-item"><a href="#" class="nav-link fw-light">Add Food Item</a></li>
+				<li class="nav-item"><a href="{{ url_for('index') }}" class="nav-link fw-light">Home</a></li>
+				<li class="nav-item"><a href="{{ url_for('add_food') }}" class="nav-link fw-light">Add Food Item</a></li>
 			</ul>
 
 		</div>
@@ -29,15 +29,21 @@
 	</nav>
 </header>
 
+{% block content %}
+
 <!-- INPUT A NEW DAY -->
 
 <section>
 	<div class="container py-5 text-light">
 
-		<div class="input-group">
-		  <input type="text" class="form-control" placeholder="New Day" aria-label="Recipient's username" aria-describedby="button-addon2">
-		  <button class="btn btn-warning" type="button" id="button-addon2"><span class="fw-light">Add</span></button>
-		</div>
+		<form action="{{ url_for('index')}}">
+			<div class="input-group">
+
+					<input type="text" class="form-control" placeholder="New Day" aria-label="Recipient's username" aria-describedby="button-addon2" required>
+					<button class="btn btn-warning" type="submit" id="button-addon2"><span class="fw-light">Add</span></button>
+
+			</div>
+		</form>
 
 	</div>
 </section>
@@ -79,7 +85,7 @@
 				  </div>
 
 				  <div class="text-center">
-				  	<a class="list_button" href="#">View Detail</a>
+				  	<a class="list_button" href="{{ url_for('day', date='25102003') }}">View Detail</a>
 				  </div>
 
 			  </div>
@@ -89,6 +95,8 @@
 		</div>
 	</div>
 </section>
+
+{% endblock %}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>	
 </body>
