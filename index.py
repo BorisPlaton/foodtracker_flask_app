@@ -60,9 +60,29 @@ def index():
 @app.route("/add_food", methods=["POST", "GET"])
 def add_food():
     """Страница добавление нового типа еды"""
+    db = get_db()
     if request.method == "POST":
-        pass
-    return render_template("add_food.html")
+        try:    # Валидация данных, в ином случае возвращаем на ту же страницу
+            name = request.form["food_name"]
+            protein = int(request.form["protein"])
+            carbo = int(request.form["carbo"])
+            fat = int(request.form["fat"])
+            print(name, protein, carbo, fat)
+            db.execute("""
+            INSERT INTO food (food_name, fat, protein, carbohydates)
+            VALUES
+                (?, ?, ?, ?);
+            """, [name, fat, protein, carbo])   # Записываем данные если валидация прошла успешно
+            db.commit()
+        except ValueError:
+            return redirect(url_for('add_food'))
+
+    cur = db.execute("""
+        SELECT * FROM food;
+    """)
+    results = cur.fetchall()
+
+    return render_template("add_food.html", results=results)
 
 
 @app.route("/day/<date>", methods=["POST", "GET"])
@@ -70,7 +90,7 @@ def day(date):
     """Показывает список еды за день"""
     if request.method == "POST":
         pass
-    return render_template("add_food.html")
+    return render_template("day.html")
 
 
 if __name__ == "__main__":

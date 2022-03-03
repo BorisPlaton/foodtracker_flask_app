@@ -16,35 +16,35 @@
 		  <div class="card-body bg-warning fs-5 fw-light">
 
 		  	<!-- USER FOOD INPUT -->
-		  	<form action="{{ url_for('add_food') }}">
+		  	<form action="{{ url_for('add_food') }}" method="post">
 
 		  		<div class="row g-4">
 
 			  		<div class="col-12">
 			  			<h6 class="fw-bold">Food Name</h6>
 			  			<div class="input-group">
-						  <input type="text" class="form-control" placeholder="New Day" aria-label="Recipient's username" aria-describedby="button-addon2" required>
+						  <input type="text" name="food_name" class="form-control" placeholder="New Day" aria-label="Recipient's username" aria-describedby="button-addon2" required>
 						</div> 
 			  		</div>	
 
 			  		<div class="col-12">
 			  			<h6 class="fw-bold">Protein</h6>
 			  			<div class="input-group">
-						  <input type="text" class="form-control" placeholder="New Day" aria-label="Recipient's username" aria-describedby="button-addon2" required>
+						  <input type="text" name="protein" class="form-control" placeholder="New Day" aria-label="Recipient's username" aria-describedby="button-addon2" required>
 						</div> 
 			  		</div>
 
 			  		<div class="col-12">
 			  			<h6 class="fw-bold">Carbohydrates</h6>
 			  			<div class="input-group">
-						  <input type="text" class="form-control" placeholder="New Day" aria-label="Recipient's username" aria-describedby="button-addon2" required>
+						  <input type="text" name="carbo" class="form-control" placeholder="New Day" aria-label="Recipient's username" aria-describedby="button-addon2" required>
 						</div> 
 			  		</div>
 
 					<div class="col-12">
 			  			<h6 class="fw-bold">Fat</h6>
 			  			<div class="input-group">
-						  <input type="text" class="form-control" placeholder="New Day" aria-label="Recipient's username" aria-describedby="button-addon2" required>
+						  <input type="text" name="fat" class="form-control" placeholder="New Day" aria-label="Recipient's username" aria-describedby="button-addon2" required>
 						</div> 
 			  		</div>
 
@@ -58,35 +58,37 @@
 
 		  <!-- LIST OF ADDED FOOD -->
 
+		  {% for food in results %}
 		  	<div class="card-body bg-warning fs-5 fw-light">
 			  <div class="d-flex py-4 border-top border-bottom border-dark justify-content-around g-4">
 	  	
 	  			  <div class="p-2 rounded justify-content-start align-items-center bg-dark">
-				  	<span class="text-light">Burger</span>
+				  	<span class="text-light">{{ food.food_name }}</span>
 				  </div>
 
 				  <div class="d-flex justify-content-start align-items-center">
 				  	<span>Fat</span>
-				  	<span class="rounded-pill bg-light ms-3 px-2 fs-6">43</span>
+				  	<span class="rounded-pill bg-light ms-3 px-2 fs-6">{{ food.fat }}</span>
 				  </div>
 
 				  <div class="d-flex justify-content-start align-items-center">
 				  	<span>Protein</span>
-				  	<span class="rounded-pill bg-light ms-3 px-2 fs-6">43</span>
+				  	<span class="rounded-pill bg-light ms-3 px-2 fs-6">{{ food.protein }}</span>
 				  </div>
 
 				  <div class="d-flex justify-content-start align-items-center">
 				  	<span>Carbohydates</span>
-				  	<span class="rounded-pill bg-light ms-3 px-2 fs-6">43</span>
+				  	<span class="rounded-pill bg-light ms-3 px-2 fs-6">{{ food.carbohydates }}</span>
 				  </div>
 
 				  <div class="d-flex justify-content-start align-items-center">
-				  	<span>Сalories</span>
-				  	<span class="rounded-pill bg-light ms-3 px-2 fs-6">43</span>
+				  	<span>Calories</span>
+				  	<span class="rounded-pill bg-light ms-3 px-2 fs-6">{{ food.calories }}</span>
 				  </div>
 
   			  </div>
 		  	</div>
+		  {% endfor %}
 
 		  	
 		</div>
