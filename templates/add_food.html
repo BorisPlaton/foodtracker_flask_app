@@ -16,6 +16,7 @@
 		  <div class="card-body bg-warning fs-5 fw-light">
 
 		  	<!-- USER FOOD INPUT -->
+		  {% block form %}
 		  	<form action="{{ url_for('add_food') }}" method="post">
 
 		  		<div class="row g-4">
@@ -49,15 +50,17 @@
 			  		</div>
 
 			  	</div>
-
+			{% endblock %}
 			  <button type="submit" class="btn btn-dark mt-4">Add</button>
 
 		  	</form>
+
 
 		  </div>
 
 		  <!-- LIST OF ADDED FOOD -->
 
+		  {% block list_food %}
 		  {% for food in results %}
 		  	<div class="card-body bg-warning fs-5 fw-light">
 			  <div class="d-flex py-4 border-top border-bottom border-dark justify-content-around g-4">
@@ -89,7 +92,7 @@
   			  </div>
 		  	</div>
 		  {% endfor %}
-
+		  {% endblock %}
 		  	
 		</div>
 	</div>

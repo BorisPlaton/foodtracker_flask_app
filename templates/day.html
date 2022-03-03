@@ -1,0 +1,22 @@
+{% extends 'add_food.html' %}
+
+{% block form %}
+<form action="{{ url_for('day', date='25102003') }}" method="post">
+
+    <div class="row g-4">
+
+        <div class="col-12">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>Open this select menu</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block list_food %}
+{{ super() }}
+{% endblock %}

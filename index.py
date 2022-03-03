@@ -88,6 +88,8 @@ def add_food():
 @app.route("/day/<date>", methods=["POST", "GET"])
 def day(date):
     """Показывает список еды за день"""
+    db = get_db()
+
     if request.method == "POST":
         pass
     return render_template("day.html")
