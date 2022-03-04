@@ -32,27 +32,37 @@ def index():
 
         try:  # Проверяем ввод даты, в ином случае возвращаем на главную страницу
             date = datetime.datetime.strptime(date_log, "%Y-%m-%d")
-            date_sql = datetime.datetime.strftime(date, "%Y%m%d")
+            date_sql = datetime.datetime.strftime(date, "%Y-%m-%d")
             db.execute("""
                 INSERT INTO log_date (entry_date)
                 VALUES
                     (?);
             """, [date_sql])
             db.commit()
+            return redirect(url_for("index"))
         except ValueError:
             return redirect(url_for("index"))   # Возвращаем страницу если неверно введены данные
 
     cur = db.execute("""
-        SELECT entry_date FROM log_date;
+        SELECT entry_date, IFNULL(SUM(fat), 0) as fat_, IFNULL(SUM(protein), 0) as protein_, IFNULL(SUM(carbohydates), 0) as carbohydates_, IFNULL(SUM(calories), 0) as calories_ 
+        FROM log_date 
+            LEFT JOIN food_date ON log_date.log_id = food_date.log_id
+            LEFT JOIN food ON food_date.food_id = food.food_id
+        GROUP BY entry_date
+        ORDER BY entry_date DESC;
     """)
     results = cur.fetchall()  # Получаем даты для преобразования в другой вид
     user_date = []
 
     for i in results:
         info = {}
-        pd = datetime.datetime.strptime(str(i['entry_date']), "%Y%m%d")
+        pd = datetime.datetime.strptime(str(i['entry_date']), "%Y-%m-%d")
         info["entry_pretty_date"] = datetime.datetime.strftime(pd, "%B %d, %Y")
         info["date"] = i['entry_date']
+        info["fat"] = i['fat_']
+        info['protein'] = i['protein_']
+        info['carbohydates'] = i['carbohydates_']
+        info['calories'] = i['calories_']
         user_date.append(info)
 
     return render_template("index.html", results=user_date)
@@ -116,7 +126,7 @@ def day(date):
     """)
     food_list = cur.fetchall()  # Список всей доступной еды
 
-    _ = datetime.datetime.strptime(date, "%Y%m%d")
+    _ = datetime.datetime.strptime(date, "%Y-%m-%d")
     pretty_date = datetime.datetime.strftime(_, "%B %m, %Y")
 
     return render_template("day.html", food_list=food_list, date=date, results=results, pretty_date=pretty_date)
