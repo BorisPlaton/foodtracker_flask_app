@@ -6,12 +6,12 @@
 </div>
 
 <div class="card-body bg-warning fs-5 fw-light">
-    <form action="{{ url_for('day', date='{{ results.entry_date }}') }}" method="post">
+    <form action="{{ url_for('day', date=date) }} " method="post">
 
         <div class="row g-4">
 
             <div class="col-12">
-                <select class="form-select" aria-label="Default select example">
+                <select class="form-select" aria-label="Default select example" name="food_id">
                     {% for food in food_list %}
                         <option value="{{ food.food_id }}">{{ food.food_name }}</option>
                     {% endfor %}
@@ -19,6 +19,9 @@
             </div>
 
         </div>
+        <button type="submit" class="btn btn-dark mt-4">Add</button>
+
+    </form>
 {% endblock %}
 
 {% block list_food %}

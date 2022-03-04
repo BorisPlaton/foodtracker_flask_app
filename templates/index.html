@@ -54,12 +54,11 @@
 	<div class="container">
 		<div class="card border-0">
 
-		{% for date in results %}
+		{% for i in results %}
 		<!-- TITLE -->
 		  <div class="card-header bg-dark text-light lead">
-			  {{ date.entry_date }}
+			  {{ i.entry_pretty_date }}
 		  </div>
-		{% endfor %}
 
 		  <!-- MAIN -->
 		  <div class="card-body bg-warning fs-5 fw-light">
@@ -86,11 +85,12 @@
 				  </div>
 
 				  <div class="text-center">
-				  	<a class="list_button" href="{{ url_for('day', date='25102003') }}">View Detail</a>
+				  	<a class="list_button" href="{{ url_for('day', date=i.date) }}">View Detail</a>
 				  </div>
 
 			  </div>
 		  </div>
+		{% endfor %}
 
 
 		</div>

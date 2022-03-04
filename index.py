@@ -40,7 +40,7 @@ def index():
             """, [date_sql])
             db.commit()
         except ValueError:
-            return redirect(url_for("index"))
+            return redirect(url_for("index"))   # Возвращаем страницу если неверно введены данные
 
     cur = db.execute("""
         SELECT entry_date FROM log_date;
@@ -51,7 +51,8 @@ def index():
     for i in results:
         info = {}
         pd = datetime.datetime.strptime(str(i['entry_date']), "%Y%m%d")
-        info["entry_date"] = datetime.datetime.strftime(pd, "%B %d, %Y")
+        info["entry_pretty_date"] = datetime.datetime.strftime(pd, "%B %d, %Y")
+        info["date"] = i['entry_date']
         user_date.append(info)
 
     return render_template("index.html", results=user_date)
@@ -67,7 +68,6 @@ def add_food():
             protein = int(request.form["protein"])
             carbo = int(request.form["carbo"])
             fat = int(request.form["fat"])
-            print(name, protein, carbo, fat)
             db.execute("""
             INSERT INTO food (food_name, fat, protein, carbohydates)
             VALUES
@@ -91,7 +91,16 @@ def day(date):
     db = get_db()
 
     if request.method == "POST":
-        pass
+        cur = db.execute("""
+            SELECT log_id FROM log_date WHERE entry_date = (?);
+        """, [date])
+        date_id = cur.fetchone()["log_id"]
+        db.execute("""
+            INSERT INTO food_date (food_id, log_id)
+            VALUES
+                (?, ?);
+        """, [request.form["food_id"], date_id])
+        db.commit()
 
     cur = db.execute("""
         SELECT * FROM
@@ -110,7 +119,7 @@ def day(date):
     _ = datetime.datetime.strptime(date, "%Y%m%d")
     pretty_date = datetime.datetime.strftime(_, "%B %m, %Y")
 
-    return render_template("day.html", food_list=food_list, results=results, pretty_date=pretty_date)
+    return render_template("day.html", food_list=food_list, date=date, results=results, pretty_date=pretty_date)
 
 
 if __name__ == "__main__":
